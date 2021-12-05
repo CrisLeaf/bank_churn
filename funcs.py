@@ -33,11 +33,12 @@ def scores(model, X=X, y=y, cv=5):
     plt.xlabel("False Positive Rate", fontsize=12)
     plt.show()
 
-def data_pipeline(df):
-    X = df[["CreditScore", "Age", "HasCrCard", "IsActiveMember", "NumOfProducts", "Tenure"]]
+def get_data(df):
+    X = df[["CreditScore", "Age", "Tenure", "Balance", "NumOfProducts", 
+            "HasCrCard", "IsActiveMember", "EstimatedSalary"]]
     X_ = pd.get_dummies(df["Geography"], drop_first=True)
-    X = pd.concat([X, X_["Germany"]], axis=1)
+    X = pd.concat([X, X_], axis=1)
     X_ = pd.get_dummies(df["Gender"], drop_first=True)
     X = pd.concat([X, X_], axis=1)
-    y = df[target_col]
+    y = df["Exited"]
     return X, y
